@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Momentum — Micro-Commitment App</title>
+  <meta name="description" content="Build action bias through ultra-small, immediate tasks. Just start." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Top Bar -->
+    <header id="top-bar">
+      <button id="settings-btn" aria-label="Settings">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <div id="momentum-badge">
+        <span id="streak-count">0</span> in a row
+      </div>
+      <button id="add-task-btn" aria-label="Add task">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </header>
+
+    <!-- Main Task Area -->
+    <main id="task-area">
+      <!-- Category pill -->
+      <div id="task-category-pill"></div>
+
+      <!-- Timer bar (acceptance pressure) -->
+      <div id="timer-bar-container" class="hidden">
+        <div id="timer-bar"></div>
+      </div>
+
+      <!-- Task text -->
+      <p id="task-text">Loading...</p>
+
+      <!-- Identity reinforcement message -->
+      <p id="reinforcement-msg" class="hidden"></p>
+    </main>
+
+    <!-- Action Buttons -->
+    <div id="actions">
+      <button id="skip-btn" class="action-btn secondary" aria-label="Skip task">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+        <span>Skip</span>
+      </button>
+      <button id="complete-btn" class="action-btn primary" aria-label="Complete task">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Done</span>
+      </button>
+    </div>
+
+    <!-- Bottom Stats -->
+    <footer id="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="stat-completed">0</span>
+        <span class="stat-label">actions today</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value" id="stat-skipped">0</span>
+        <span class="stat-label">skipped</span>
+      </div>
+    </footer>
+
+    <!-- Reset Momentum Button -->
+    <button id="reset-btn">Reset Momentum</button>
+
+    <!-- Settings Panel (Overlay) -->
+    <div id="settings-panel" class="panel hidden">
+      <div class="panel-backdrop"></div>
+      <div class="panel-content">
+        <div class="panel-header">
+          <h2>Settings</h2>
+          <button id="close-settings-btn" class="close-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="setting-row">
+          <div>
+            <span class="setting-label">Acceptance Pressure</span>
+            <span class="setting-desc">Task expires in 10 seconds if not acted on</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="pressure-toggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
+            <span class="setting-label">Energy Level</span>
+            <span class="setting-desc">Adjust task difficulty to your energy</span>
+          </div>
+          <select id="energy-select">
+            <option value="any">Any</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Task Panel (Overlay) -->
+    <div id="add-task-panel" class="panel hidden">
+      <div class="panel-backdrop"></div>
+      <div class="panel-content">
+        <div class="panel-header">
+          <h2>Add a Micro-Task</h2>
+          <button id="close-add-btn" class="close-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="form-group">
+          <label for="new-task-input">Task</label>
+          <input type="text" id="new-task-input" placeholder='e.g. "Do 5 pushups"' maxlength="120" />
+        </div>
+        <div class="form-group">
+          <label for="new-task-category">Category</label>
+          <select id="new-task-category">
+            <option value="productivity">Productivity</option>
+            <option value="health">Health</option>
+            <option value="social">Social</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="new-task-energy">Energy</label>
+          <select id="new-task-energy">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <button id="save-task-btn" class="action-btn primary full-width">Add Task</button>
+      </div>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
